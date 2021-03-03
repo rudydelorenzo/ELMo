@@ -64,11 +64,13 @@ String sendAndWait(String message) {
   client.println(message);
   
   String received = "";
-  while (client.available() || received == "") {
-    char c = client.read();
-    if (c = '>') {
-      return received;
+  while (true) {
+    if (client.available()) {
+      char c = client.read();
+      if (c == '>') {
+        return received;
+      }
+      received += c;
     }
-    received += c;
   }
 }
