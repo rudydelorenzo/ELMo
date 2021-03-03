@@ -29,7 +29,8 @@ void setup() {
 
   int attempts = 0;
   while (WiFi.status() != WL_CONNECTED) {
-    if (attempts > 10) ESP.deepSleep(dsLength*1000000); 
+    // after 10 connecion attempts deep sleep
+    if (attempts > 5) ESP.deepSleep(dsLength*1000000); 
     delay(500);
     attempts++;
   }
@@ -46,14 +47,15 @@ void setup() {
     if (!initializeELM()) {
       if (debug) Serial.println("Coudln't Initialize ELM327, entering Deep Sleep");
       // in case of failed initialization, deep sleep; car may be off
+      client.stop();
       ESP.deepSleep(dsLength*1000000); 
     }
     if (debug) Serial.println("Initialized ELM327");
   }
   else {
     if (debug) Serial.println("Connection to ELM failed");
-    delay(60000);
-    reboot();
+    client.stop();
+    ESP.deepSleep(dsLength*1000000); 
   }
 }
 
@@ -127,6 +129,7 @@ String sendAndWait(String message) {
   }
   
   // timed out
+  if (debug) Serial.println("Request timed out waiting for response - resetting...");
   reboot();
 }
 
