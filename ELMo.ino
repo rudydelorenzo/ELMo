@@ -7,7 +7,9 @@ IPAddress server(192, 168, 0, 10);
 
 WiFiClient client;
 
-int run = 0;
+int responseTimeout = 60; // seconds
+bool clear = false;
+
 
 void setup() {
   // start serial (for debugging)
@@ -29,7 +31,12 @@ void setup() {
   // connect to ELM
   if (client.connect(server, 35000)) {
     Serial.println("Connected to ELM327");
-    initializeELM();
+    if (!initializeELM()) {
+      Serial.println("Coudln't Initialize ELM327");
+      // in case of failed initialization, wait and restart; car may be off
+      delay(60000);
+      ESP.reset();
+    }
     Serial.println("Initialized ELM327");
   }
   else {
@@ -44,33 +51,65 @@ void loop() {
     client.stop();
     ESP.reset();
   }
-  
-  //bool CELon = 
-  String rawCodes = sendAndWait("03");
-  Serial.println("Raw Codes:");
-  Serial.println(rawCodes);
 
-  //TODO: sleep for 1 minute
+  clear = false;
+  String status = sendAndWait("0101");
+  if (status.substring(6,7).equals("8")) {
+    //CEL is on
+    if (0 < status.substring(7,8).toInt() < 3) {
+      // there are two or less codes
+      clear = true;
+      String rawCodes = sendAndWait("03");
+      String code1 = rawCodes.substring(3,8);
+      String code2 = rawCodes.substring(24,29);
+      if (!(code1.equals("00 00") || code1.equals("07 41") || code1.equals("15 25"))) clear = false;
+      if (!(code2.equals("00 00") || code2.equals("07 41") || code2.equals("15 25"))) clear = false;
+    }
+  }
+
+  if (clear) {
+    //sendAndWait("04");
+    Serial.println("CODES MUST BE CLEARED");
+  }
+
+  // sleep for 1 minute
+  // TODO: use TaskScheduler
   delay(60000);
 }
 
 bool initializeELM() {
+  bool success = true;
+  
   sendAndWait("AT Z");
-  sendAndWait("AT SP 0");
-  sendAndWait("0100"); // queries supported PIDs and prepares ELM
+  sendAndWait("AT E0"); // disables echo
+  sendAndWait("AT H0"); // disables headers
+  if (!sendAndWait("AT SP 0").equals("OK")) success = false;
+  if (sendAndWait("0100").indexOf("UNABLE TO CONNECT") > -1) success = false; // queries supported PIDs and prepares ELM
+
+  return success;
 }
 
 String sendAndWait(String message) {
   client.println(message);
   
   String received = "";
-  while (true) {
+  unsigned long beginTime = millis();
+  while (millis() - beginTime < (responseTimeout*1000)) {
     if (client.available()) {
       char c = client.read();
       if (c == '>') {
+        // done receiving
+        // check that response is adequate
+        if (message.indexOf("AT") == -1) {
+          // message is not AT
+          if (received.equals("NO DATA")) ESP.reset();
+        }
         return received;
       }
       received += c;
     }
   }
+
+  // timed out
+  ESP.reset();
 }
