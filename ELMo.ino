@@ -35,21 +35,20 @@ void setup() {
       Serial.println("Coudln't Initialize ELM327");
       // in case of failed initialization, wait and restart; car may be off
       delay(60000);
-      ESP.reset();
+      reboot();
     }
     Serial.println("Initialized ELM327");
   }
   else {
     Serial.println("Connection to ELM failed");
-    ESP.reset();
+    reboot();
   }
 }
 
 void loop() {
   if (!client.connected()) {
     Serial.println("CLIENT DISCONNECTED - RESET!");
-    client.stop();
-    ESP.reset();
+    reboot();
   }
 
   clear = false;
@@ -105,14 +104,20 @@ String sendAndWait(String message) {
         // check that response is adequate
         if (message.indexOf("AT") == -1) {
           // message is not AT
-          if (received.indexOf("NO DATA") > -1) ESP.reset();
+          if (received.indexOf("NO DATA") > -1) reboot();
         }
         return received;
       }
       received += c;
     }
   }
-
+  
   // timed out
+  reboot();
+}
+
+void reboot() {
+  Serial.println("Rebooting...");
+  client.stop();
   ESP.reset();
 }
