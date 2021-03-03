@@ -60,8 +60,8 @@ void loop() {
       // there are two or less codes
       clear = true;
       String rawCodes = sendAndWait("03");
-      String code1 = rawCodes.substring(3,8);
-      String code2 = rawCodes.substring(24,29);
+      String code1 = rawCodes.substring(3, 8);
+      String code2 = rawCodes.substring(25, 30);
       if (!(code1.equals("00 00") || code1.equals("07 41") || code1.equals("15 25"))) clear = false;
       if (!(code2.equals("00 00") || code2.equals("07 41") || code2.equals("15 25"))) clear = false;
     }
@@ -74,6 +74,7 @@ void loop() {
 
   // sleep for 1 minute
   // TODO: use TaskScheduler
+  Serial.println("Sleeping...");
   delay(60000);
 }
 
@@ -83,7 +84,7 @@ bool initializeELM() {
   sendAndWait("AT Z");
   sendAndWait("AT E0"); // disables echo
   sendAndWait("AT H0"); // disables headers
-  if (!sendAndWait("AT SP 0").equals("OK")) success = false;
+  if (!sendAndWait("AT SP 0").substring(0, 2).equals("OK")) success = false;
   if (sendAndWait("0100").indexOf("UNABLE TO CONNECT") > -1) success = false; // queries supported PIDs and prepares ELM
 
   return success;
@@ -99,10 +100,12 @@ String sendAndWait(String message) {
       char c = client.read();
       if (c == '>') {
         // done receiving
+        Serial.print("Received: ");
+        Serial.println(received);
         // check that response is adequate
         if (message.indexOf("AT") == -1) {
           // message is not AT
-          if (received.equals("NO DATA")) ESP.reset();
+          if (received.indexOf("NO DATA") > -1) ESP.reset();
         }
         return received;
       }
