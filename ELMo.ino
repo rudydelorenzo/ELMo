@@ -2,12 +2,13 @@
 
 const char* ssid = "WiFi-OBDII";
 
+WiFiClient client;
+
 //IP Adress of the ELM327 Dongle
 IPAddress server(192, 168, 0, 10);
 
-WiFiClient client;
-
 int responseTimeout = 60; // seconds
+int dsLength = 180; //seconds
 bool clear = false;
 bool debug = false;
 
@@ -38,15 +39,15 @@ void setup() {
   if (client.connect(server, 35000)) {
     if (debug) Serial.println("Connected to ELM327");
     if (!initializeELM()) {
-      if (debug) Serial.println("Coudln't Initialize ELM327");
-      // in case of failed initialization, wait and restart; car may be off
-      delay(60000);
-      reboot();
+      if (debug) Serial.println("Coudln't Initialize ELM327, entering Deep Sleep");
+      // in case of failed initialization, deep sleep; car may be off
+      ESP.deepSleep(dsLength*1000000); 
     }
     if (debug) Serial.println("Initialized ELM327");
   }
   else {
     if (debug) Serial.println("Connection to ELM failed");
+    delay(60000);
     reboot();
   }
 }
