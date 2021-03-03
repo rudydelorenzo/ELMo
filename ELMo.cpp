@@ -153,8 +153,10 @@ int ELMo::setBaud(int rate) {
 
 bool ELMo::connected() {
 	bool conn = client.connected();
-	if (!conn) _initialized = false;
-	if (_debug) Serial.println("ELMo: CONNECTION LOST, ELM UNINITIALIZED");
+	if (!conn) {
+		_initialized = false;
+		if (_debug) Serial.println("ELMo: CONNECTION LOST, ELM UNINITIALIZED");
+	}
 	return conn;
 }
 
