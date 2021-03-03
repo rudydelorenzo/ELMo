@@ -27,7 +27,12 @@ void setup() {
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid);
 
-  while (WiFi.status() != WL_CONNECTED) delay(500);
+  int attempts = 0;
+  while (WiFi.status() != WL_CONNECTED) {
+    if (attempts > 10) ESP.deepSleep(dsLength*1000000); 
+    delay(500);
+    attempts++;
+  }
 
   if (debug) {
     Serial.println("Connected to WiFi");
