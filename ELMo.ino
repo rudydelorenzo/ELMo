@@ -9,6 +9,7 @@ WiFiClient client;
 
 int responseTimeout = 60; // seconds
 bool clear = false;
+bool debug = false;
 
 
 void setup() {
@@ -17,37 +18,42 @@ void setup() {
   while (!Serial);
    
   // connect to wifi
-  Serial.println("Connecting to WiFi: WIFI-obd");
+  if (debug) {
+    Serial.print("Connecting to WiFi: ");
+    Serial.println(ssid);
+  }
   
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid);
 
   while (WiFi.status() != WL_CONNECTED) delay(500);
 
-  Serial.println("Connected to WiFi");
-  Serial.print("IP address: ");
-  Serial.println(WiFi.localIP());
+  if (debug) {
+    Serial.println("Connected to WiFi");
+    Serial.print("IP address: ");
+    Serial.println(WiFi.localIP());
+  }
 
   // connect to ELM
   if (client.connect(server, 35000)) {
-    Serial.println("Connected to ELM327");
+    if (debug) Serial.println("Connected to ELM327");
     if (!initializeELM()) {
-      Serial.println("Coudln't Initialize ELM327");
+      if (debug) Serial.println("Coudln't Initialize ELM327");
       // in case of failed initialization, wait and restart; car may be off
       delay(60000);
       reboot();
     }
-    Serial.println("Initialized ELM327");
+    if (debug) Serial.println("Initialized ELM327");
   }
   else {
-    Serial.println("Connection to ELM failed");
+    if (debug) Serial.println("Connection to ELM failed");
     reboot();
   }
 }
 
 void loop() {
   if (!client.connected()) {
-    Serial.println("CLIENT DISCONNECTED - RESET!");
+    if (debug) Serial.println("CLIENT DISCONNECTED - RESET!");
     reboot();
   }
 
@@ -67,13 +73,13 @@ void loop() {
   }
 
   if (clear) {
-    //sendAndWait("04");
-    Serial.println("CODES MUST BE CLEARED");
+    sendAndWait("04");
+    if (debug) Serial.println("CODES MUST BE CLEARED");
   }
 
   // sleep for 1 minute
   // TODO: use TaskScheduler
-  Serial.println("Sleeping...");
+  if (debug) Serial.println("Sleeping...");
   delay(60000);
 }
 
@@ -99,8 +105,10 @@ String sendAndWait(String message) {
       char c = client.read();
       if (c == '>') {
         // done receiving
-        Serial.print("Received: ");
-        Serial.println(received);
+        if (debug) {
+          Serial.print("Received: ");
+          Serial.println(received);
+        }
         // check that response is adequate
         if (message.indexOf("AT") == -1) {
           // message is not AT
@@ -117,7 +125,7 @@ String sendAndWait(String message) {
 }
 
 void reboot() {
-  Serial.println("Rebooting...");
+  if (debug) Serial.println("Rebooting...");
   client.stop();
   ESP.reset();
 }
