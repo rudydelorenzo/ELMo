@@ -21,7 +21,7 @@ String ELMo::send(String message) {
   
 	String received = "";
 	unsigned long beginTime = millis();
-	 while (millis() - beginTime < (responseTimeout*1000)) {
+	while (millis() - beginTime < (responseTimeout*1000)) {
 	    if (client.available()) {
 	        char c = client.read();
 	        if (c == '>') {
@@ -51,7 +51,7 @@ String ELMo::_sendUninitialized(String message) {
   
 	String received = "";
 	unsigned long beginTime = millis();
-	 while (millis() - beginTime < (responseTimeout*1000)) {
+	while (millis() - beginTime < (responseTimeout*1000)) {
 	    if (client.available()) {
 	        char c = client.read();
 	        if (c == '>') {
