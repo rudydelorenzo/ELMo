@@ -19,6 +19,7 @@ private:
 	String _sendUninitialized(String message);
 	bool _debug;
 	int _baudRate;
+	int _responseTimeout;
 
 public:
 	ELMo();
@@ -30,11 +31,12 @@ public:
 	bool setDebug(bool value);
 	int getBaud();
 	int setBaud(int rate);
+	int getTimeout();
+	int setTimeout(int seconds);
 
 	WiFiClient client;
 	IPAddress ip;
 	int port;
-	int responseTimeout;
 };
 
 #endif

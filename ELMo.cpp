@@ -9,7 +9,7 @@ ELMo::ELMo() {
 	ip = IPAddress(192, 168, 0, 10);
 	port = 35000;
 	_debug = false;
-	responseTimeout = 60;
+	_responseTimeout = 60;
 	_initialized = false;
 	_baudRate = 115200;
 }
@@ -21,7 +21,7 @@ String ELMo::send(String message) {
   
 	String received = "";
 	unsigned long beginTime = millis();
-	while (millis() - beginTime < (responseTimeout*1000)) {
+	while (millis() - beginTime < (_responseTimeout*1000)) {
 	    if (client.available()) {
 	        char c = client.read();
 	        if (c == '>') {
@@ -51,7 +51,7 @@ String ELMo::_sendUninitialized(String message) {
   
 	String received = "";
 	unsigned long beginTime = millis();
-	while (millis() - beginTime < (responseTimeout*1000)) {
+	while (millis() - beginTime < (_responseTimeout*1000)) {
 	    if (client.available()) {
 	        char c = client.read();
 	        if (c == '>') {
@@ -164,4 +164,13 @@ bool ELMo::stop() {
 	send("AT WS");
 	client.stop();
 	return true;
+}
+
+int ELMo::getTimeout() {
+	return _responseTimeout;
+}
+
+int ELMo::setTimeout(int seconds) {
+	_responseTimeout = seconds;
+	return _responseTimeout;
 }
