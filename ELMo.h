@@ -1,5 +1,5 @@
 /*
-ELMo - v1.0.1
+ELMo - v1.1.0
 WARNING - NEEDS ESP8266WiFi.h Library
 
 TODO: ADD DESCRIPTION
@@ -11,7 +11,7 @@ TODO: REMOVE/BETTER COMMENTS
 #ifndef ELMo_h
 #define ELMo_h
 #include <Arduino.h>
-#include <ESP8266WiFi.h>
+#include <WiFi.h>
 
 class ELMo {
 private:
