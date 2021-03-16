@@ -7,11 +7,12 @@ getDebug	KEYWORD2
 setDebug	KEYWORD2
 getBaud		KEYWORD2
 setBaud		KEYWORD2
+getTimeout		KEYWORD2
+setTimeout		KEYWORD2
 
 client		LITERAL2
 ip			LITERAL2
 port		LITERAL2
-responseTimeout	LITERAL2
 
 TIMEOUT		LITERAL1
 NO_DATA		LITERAL1
