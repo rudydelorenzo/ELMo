@@ -56,7 +56,7 @@ I recommend reading it, it's a thrilling tale. However, you do NOT have to read 
 
 
 ### Mode + PID Commands
-These are messages that let you talk with your car. They're typically composed of two parts, a mode identifier and some Parameter IDs, or PIDs. Let's look at an example:
+These are commands that let you talk with your car. They're typically composed of two parts, an OBD2 mode (aka. service) identifier and some OBD2 Parameter ID, or PID. Let's look at an example:
 
 __`01 05`__
 
@@ -67,9 +67,11 @@ This command gives you the current Engine Coolant Temperature (ECT).
 
 "_But wait!_", I hear you say. "_How am I supposed to know what 01 or 05 mean? How do I reset codes?_"
 
-I'm glad you asked! __Everything you need to know about ELM327 commands is in the [ELM327 datasheet](https://www.elmelectronics.com/wp-content/uploads/2020/05/ELM327DSL.pdf)!__ Modes and PID descriptions begin on [page 33](https://www.elmelectronics.com/wp-content/uploads/2020/05/ELM327DSL.pdf#page=33).
+I'm glad you asked! There are two great resources to answer all your OBD2 questions:
+* The [OBD-II PIDs Wikipedia page](https://en.wikipedia.org/wiki/OBD-II_PIDs#Modes).
+* The [ELM327 datasheet](https://www.elmelectronics.com/wp-content/uploads/2020/05/ELM327DSL.pdf). Modes and PID descriptions begin on [page 33](https://www.elmelectronics.com/wp-content/uploads/2020/05/ELM327DSL.pdf#page=33).
 
-This document might seem overwhelming at first, but it contains lots of great information that'll let you unlock all the capabilities of your ELM327 reader.
+The datasheet might seem overwhelming at first, but it contains lots of great information that'll let you unlock all the capabilities of your ELM327 reader.
 I recommend reading it, it's a thrilling tale. You can use the Find tool of your PDF viewer to search for any particular sections you may be interested in.
 
 Here are some of the highlights:
