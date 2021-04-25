@@ -2,7 +2,7 @@
 # Welcome to the ELMo Library
 
 ## What's ELMo?
-ELMo is a library that simplifies communication between ELM327 devices and ESP32 microprocessors. The library allows for this communication to happen synchronously, no more [callback hell](http://callbackhell.com/)! This library is supposed a barebones, yet easy-to-use middle man between your logic and the ELM327 device.
+ELMo is a library that simplifies communication between ELM327 devices and ESP32 microprocessors. The library allows for this communication to happen synchronously, no more [callback hell](http://callbackhell.com/)! This library is intended to be a barebones, yet easy-to-use middle man between your logic and the ELM327 device.
 
 ## How do I get it?
 **Method 1: Arduino Library manager**
