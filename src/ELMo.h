@@ -1,5 +1,5 @@
 /*
-ELMo - v1.1.1
+ELMo - v1.1.2
 WARNING - NEEDS WiFi.h Library
 
 TODO: ADD DESCRIPTION
