@@ -2,7 +2,7 @@
 # Welcome to the ELMo Library
 
 ## What's ELMo?
-ELMo is a library that simplifies communication between ELM327 devices and ESP32 microprocessors. The library allows for this communication to happen synchronously, no more [callback hell](http://callbackhell.com/)! This library is intended to be a barebones, yet easy-to-use middle man between your logic and the ELM327 device.
+ELMo is a library that simplifies communication between ELM327 devices (like your OBD-II reader) and ESP32 microprocessors. The library allows for this communication to happen synchronously, no more [callback hell](http://callbackhell.com/)! This library is intended to be a barebones, yet easy-to-use middle man between your logic and the ELM327 device.
 
 ## How do I get it?
 **Method 1: Arduino Library manager**
@@ -32,7 +32,7 @@ The way that you communicate with an ELM device (and the way it communicates bac
 
 There are two kinds of commands:
 * "AT" commands
-*  Mode + PID commands.
+*  OBD-II commands.
 
 ### AT Commands
 __Most users will never have to issue an AT command.__
@@ -41,7 +41,7 @@ These messages are prepended by the letters "AT" (go figure) and are used to spe
 
 "_Forget this! I want to talk to the car!_"
 
-If this is you, I recommend sticking around for this quick word on AT commands. However, you can skip to the "__Mode + PID Commands__" section below for details on how to talk to the car. Now, back to AT Commands. Let's start with an example.
+If this is you, I recommend sticking around for this quick word on AT commands. However, you can skip to the "__OBD-II Commands__" section below for details on how to talk to the car. Now, back to AT Commands. Let's start with an example.
 
 The command `AT Z` will tell the ELM327 device to reset itself. 
 * `AT` means that this is a command intended for the ELM device itself, not for the car. 
@@ -55,8 +55,8 @@ This document might seem overwhelming at first, but it contains lots of great in
 I recommend reading it, it's a thrilling tale. However, you do NOT have to read the document from cover to cover in order to use ELMo.
 
 
-### Mode + PID Commands
-These are commands that let you talk with your car. They're typically composed of two parts, an OBD2 mode (aka. service) identifier and some OBD2 Parameter ID, or PID. Let's look at an example:
+### OBD-II Commands
+These are commands that let you talk with your car. They're typically composed of two parts, an OBD-II mode (aka. service) identifier and some Parameter ID, or PID. Let's look at an example:
 
 __`01 05`__
 
@@ -67,7 +67,7 @@ This command gives you the current Engine Coolant Temperature (ECT).
 
 "_But wait!_", I hear you say. "_How am I supposed to know what 01 or 05 mean? How do I reset codes?_"
 
-I'm glad you asked! There are two great resources to answer all your OBD2 questions:
+I'm glad you asked! There are two great resources to answer all your OBD-II questions:
 * The [OBD-II PIDs Wikipedia page](https://en.wikipedia.org/wiki/OBD-II_PIDs#Modes).
 * The [ELM327 datasheet](https://www.elmelectronics.com/wp-content/uploads/2020/05/ELM327DSL.pdf). Modes and PID descriptions begin on [page 33](https://www.elmelectronics.com/wp-content/uploads/2020/05/ELM327DSL.pdf#page=33).
 
