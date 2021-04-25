@@ -31,19 +31,25 @@ Advanced instructions and function definitions can be found in the [Wiki](https:
 The way that you communicate with an ELM device (and the way it communicates back) is by sending messages back and forth.
 
 There are two kinds of messages:
-* "AT" messages, and
-*  Mode + PID messages
+* "AT" messages
+*  Mode + PID messages.
 
 ### AT Messages
 __Most users will never have to issue an AT command.__
 
 These messages are prepended by the letters "AT" (go figure) and are used to speak to the ELM controller chip. These messages are read by the ELM and NOT forwarded to the car.
 
-For example, the message `AT Z` will tell the ELM327 device to reset itself.
+"_Forget this! I want to talk to the car!_"
 
-"_But wait!_", you say. "_How am I supposed to know that `AT Z` means "reset"?_"
+If this is you, I recommend sticking around for this quick word on AT commands. However, you can skip to the "__Mode + PID Messages__" section below for details on how to talk to the car. Now, back to AT Commands. Let's start with an example.
 
-Great question! __Everything you need to know about ELM327 commands is in the [ELM327 datasheet](https://www.elmelectronics.com/wp-content/uploads/2020/05/ELM327DSL.pdf)!__ AT Commands and their descriptions begin on page 10.
+The message `AT Z` will tell the ELM327 device to reset itself. 
+* `AT` means that this is a command intended for the ELM device itself, not for the car. 
+* `Z` tells the ELM device to reset.
+
+"_But wait!_", you say. "_How am I supposed to know that `Z` means "reset"?_"
+
+Great question! __Everything you need to know about ELM327 commands is in the [ELM327 datasheet](https://www.elmelectronics.com/wp-content/uploads/2020/05/ELM327DSL.pdf)!__ AT Commands and their descriptions begin on [page 10](https://www.elmelectronics.com/wp-content/uploads/2020/05/ELM327DSL.pdf#page=10).
 
 This document might seem overwhelming at first, but it contains lots of great information that'll let you unlock all the capabilities of your ELM327 reader.
 I recommend reading it, it's a thrilling tale. However, you do NOT have to read the document from cover to cover in order to use ELMo.
@@ -61,10 +67,10 @@ This command gives you the current Engine Coolant Temperature (ECT).
 
 "_But wait!_", I hear you say. "_How am I supposed to know what 01 or 05 mean? How do I reset codes?_"
 
-I'm glad you asked! __Everything you need to know about ELM327 commands is in the [ELM327 datasheet](https://www.elmelectronics.com/wp-content/uploads/2020/05/ELM327DSL.pdf)!__ Modes and PID descriptions begin on page 33.
+I'm glad you asked! __Everything you need to know about ELM327 commands is in the [ELM327 datasheet](https://www.elmelectronics.com/wp-content/uploads/2020/05/ELM327DSL.pdf)!__ Modes and PID descriptions begin on [page 33](https://www.elmelectronics.com/wp-content/uploads/2020/05/ELM327DSL.pdf#page=33).
 
 This document might seem overwhelming at first, but it contains lots of great information that'll let you unlock all the capabilities of your ELM327 reader.
-I recommend reading it, it's a thrilling tale. You can use the Find tool of your PDF viewer to search for any particular actions you're interested in.
+I recommend reading it, it's a thrilling tale. You can use the Find tool of your PDF viewer to search for any particular sections you may be interested in.
 
 Here are some of the highlights:
 * __Talking to the Vehicle (MUST READ!)__ [(page 33 and 34)](https://www.elmelectronics.com/wp-content/uploads/2020/05/ELM327DSL.pdf#page=33).
@@ -72,10 +78,10 @@ Here are some of the highlights:
     * This section contains mode definitions.
     * These pages contain instructions on how to send commands. I recommend reading this as well.
     * Details on how responses are formatted are also present here.
-* __Interpreting Trouble Codes__ [page 36](https://www.elmelectronics.com/wp-content/uploads/2020/05/ELM327DSL.pdf#page=36).
-* __Resetting Trouble Codes__ [page 37](https://www.elmelectronics.com/wp-content/uploads/2020/05/ELM327DSL.pdf#page=37).
-* __Multiline Responses__ [page 44](https://www.elmelectronics.com/wp-content/uploads/2020/05/ELM327DSL.pdf#page=44).
-* __Power Control__ [page 67](https://www.elmelectronics.com/wp-content/uploads/2020/05/ELM327DSL.pdf#page=67).
+* __Interpreting Trouble Codes__ [(page 36)](https://www.elmelectronics.com/wp-content/uploads/2020/05/ELM327DSL.pdf#page=36).
+* __Resetting Trouble Codes__ [(page 37)](https://www.elmelectronics.com/wp-content/uploads/2020/05/ELM327DSL.pdf#page=37).
+* __Multiline Responses__ [(page 44)](https://www.elmelectronics.com/wp-content/uploads/2020/05/ELM327DSL.pdf#page=44).
+* __Power Control__ [(page 67)](https://www.elmelectronics.com/wp-content/uploads/2020/05/ELM327DSL.pdf#page=67).
 
 
 ## License
