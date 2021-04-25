@@ -56,7 +56,7 @@ I recommend reading it, it's a thrilling tale. However, you do NOT have to read 
 
 
 ### OBD-II Commands
-These are commands that let you talk with your car. They're typically composed of two parts, an OBD-II mode (aka. service) identifier and some Parameter ID, or PID. Let's look at an example:
+These are commands that let you talk with your car. They're typically composed of two parts, an OBD-II mode identifier (aka. service identifier) and some Parameter ID, or PID. Let's look at an example:
 
 __`01 05`__
 
